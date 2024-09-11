@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 # Load the previously saved MNIST data
 x_train = np.load('./mnist/x_train.npy')
@@ -204,3 +205,19 @@ def train(x_train, y_train, x_test, y_test, w1, b1, w2, b2, w3, b3, epochs=1000,
 
 # train the network!!
 w1, b1, w2, b2, w3, b3 = train(x_train, y_train_one_hot, x_test, y_test_one_hot, w1, b1, w2, b2, w3, b3)
+
+# give the user an option to save results if happy with them
+save = input("Do you want to save the results? (y/n): ")
+if save == 'y':
+    # Create a folder if it doesn't exist
+    folder_path = './n2Results'
+    if not os.path.exists(folder_path):
+      os.makedirs(folder_path)
+    np.save('./n1Results/w1.npy', w1)
+    np.save('./n1Results/b1.npy', b1)
+    np.save('./n1Results/w2.npy', w2)
+    np.save('./n1Results/b2.npy', b2)
+    np.save('./n1Results/w3.npy', w3)
+    np.save('./n1Results/b3.npy', b3)
+    
+
