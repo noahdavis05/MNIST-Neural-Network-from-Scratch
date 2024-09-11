@@ -45,18 +45,20 @@ y_test_one_hot = one_hot_encode(y_test, num_classes)
 
 # Number of neurons in each layer
 input_size = 784
-hidden_size = 128
+hidden_size1 = 128
+hidden_size2 = 64
 output_size = 10
 
 # Initialize weights and biases
 np.random.seed(42)
-w1 = np.random.randn(input_size, hidden_size) * 0.01 # weights for input to hidden
-b1 = np.zeros((1,hidden_size)) # biases for hidden layer
-w2 = np.random.randn(hidden_size, output_size) * 0.01 # weights for hiden layer to output layer
-b2 = np.zeros((1,output_size)) # biases for output layer
+w1 = np.random.randn(input_size, hidden_size1) * 0.01 # weights for input to hidden
+b1 = np.zeros((1,hidden_size1)) # biases for hidden layer 1
+w2 = np.random.randn(hidden_size1, hidden_size2) * 0.01
+b2 = np.zeros((1,hidden_size2)) # biases for the hidden layer 2
+w3 = np.random.randn(hidden_size2, output_size) * 0.01 # weights for hiden layer to output layer
+b3 = np.zeros((1,output_size)) # biases for output layer
 
-print(f"W1 shape: {w1.shape}, b1 shape: {b1.shape}")
-print(f"W2 shape: {w2.shape}, b2 shape: {b2.shape}")
+
 
 """
 Initializing weights randomly helps break symmetry. If all weights started the same,
@@ -83,18 +85,32 @@ def softmax(z):
     exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))  # Shift values to avoid overflow
     return exp_z / np.sum(exp_z, axis=1, keepdims=True)
 
+# ReLU activation function
+def relu(z):
+    return np.maximum(0, z)
+
+# Derivative of ReLU activation function
+def relu_derivative(z):
+    return np.where(z > 0, 1, 0)
+
 # Forward pass
 # This is the process where all neurons in each layer are involved. Each neurons output is computed and passed to to the next layer.
-def forward_propogation(x, w1, b1, w2, b2):
-    # Input to hidden layer
+# Forward pass
+def forward_propogation(x, w1, b1, w2, b2, w3, b3):
+    # Input to hidden layer 1
     z1 = np.dot(x, w1) + b1 
-    a1 = sigmoid(z1)
+    a1 = relu(z1)  # Use ReLU for hidden layer 1
+
+    # hidden layer 1 to hidden layer 2
+    z2 = np.dot(a1, w2) + b2
+    a2 = relu(z2)  # Use ReLU for hidden layer 2
 
     # hidden layer to output layer
-    z2 = np.dot(a1, w2) + b2
-    y_hat = softmax(z2) # final output probabilities
+    z3 = np.dot(a2, w3) + b3
+    y_hat = softmax(z3) # final output probabilities
 
-    return a1, y_hat
+    return a1, a2, y_hat
+
 
 # Step 4 - Loss function and back propogation
 """
@@ -117,27 +133,37 @@ def cross_entropy_loss(y, y_hat):
 # 1. Compute the gradient of the loss with respect to the output layer's activation.
 # 2. Compute the gradient of the loss with respect to the hidden layer's activation
 # 3. Update the weights and biases using the gradients.
-def backPropogation(x, y, a1, y_hat, w1, b1, w2, b2, learning_rate=0.01):
+# Backpropagation
+def backPropogation(x, y, a1, a2, y_hat, w1, b1, w2, b2, w3, b3, learning_rate=0.01):
     m = x.shape[0] # number of examples
 
-    # compute gradients for output layer
-    dz2 = y_hat - y
+    # Compute gradients for output layer
+    dz3 = y_hat - y
+    dw3 = np.dot(a2.T, dz3) / m
+    db3 = np.sum(dz3, axis=0, keepdims=True) / m
+
+    # Compute gradients for hidden layer 2
+    da2 = np.dot(dz3, w3.T)
+    dz2 = da2 * relu_derivative(a2)  # Use ReLU derivative
     dw2 = np.dot(a1.T, dz2) / m
-    db2 = np.sum(dz2, axis=0, keepdims=True) / m
+    db2 = np.sum(dz2, axis=0, keepdims=True) / m 
 
-    # compute gradients for hidden layer
-    da1 = np.dot(dz2, w2.T)
-    dz1 = da1 * (a1 * (1 - a1))
-    dw1 = np.dot(x.T, dz1) / m
-    db1 = np.sum(dz1, axis=0, keepdims=True) / m 
+    # Compute gradients for hidden layer 1
+    da1 = np.dot(dz2, w2.T)  # Gradient wrt hidden layer 1 activation
+    dz1 = da1 * relu_derivative(a1)  # Use ReLU derivative
+    dw1 = np.dot(x.T, dz1) / m  # Gradient wrt weights of hidden layer 1
+    db1 = np.sum(dz1, axis=0, keepdims=True) / m  # Gradient wrt biases of hidden layer 1
 
-    # update weights and biases
+    # Update weights and biases
     w1 -= learning_rate * dw1
     b1 -= learning_rate * db1
     w2 -= learning_rate * dw2 
     b2 -= learning_rate * db2
+    w3 -= learning_rate * dw3
+    b3 -= learning_rate * db3
 
-    return w1, b1, w2, b2
+    return w1, b1, w2, b2, w3, b3
+
 
 
 # Step 5 - Training the neural network
@@ -149,31 +175,32 @@ def backPropogation(x, y, a1, y_hat, w1, b1, w2, b2, learning_rate=0.01):
 5. Monitor training progress by evaluating the loss and accuracy.
 """
 
-def train(x_train, y_train, x_test, y_test, w1, b1, w2, b2, epochs=1000, learning_rate=0.01):
+def train(x_train, y_train, x_test, y_test, w1, b1, w2, b2, w3, b3, epochs=1000, learning_rate=0.1):
     for epoch in range(epochs):
-        # fowards propogation
-        a1, y_hat = forward_propogation(x_train, w1, b1, w2, b2)
+        # Forward propagation
+        a1, a2, y_hat = forward_propogation(x_train, w1, b1, w2, b2, w3, b3)
 
         # Compute loss
         loss = cross_entropy_loss(y_train, y_hat)
 
-        # Backpropogation
-        w1, b1, w2, b2 = backPropogation(x_train, y_train, a1, y_hat, w1, b1, w2, b2, learning_rate)
+        # Backpropagation
+        w1, b1, w2, b2, w3, b3 = backPropogation(x_train, y_train, a1, a2, y_hat, w1, b1, w2, b2, w3, b3, learning_rate)
 
-        # print loss every 100 epochs
+        # Print loss every 100 epochs
         if epoch % 100 == 0:
             print(f'Epoch {epoch}, Loss: {loss}')
 
-    # evaluate on test data
-    a1_test, y_hat_test = forward_propogation(x_test, w1, b1, w2, b2)
+    # Evaluate on test data
+    a1_test, a2_test, y_hat_test = forward_propogation(x_test, w1, b1, w2, b2, w3, b3)
     test_loss = cross_entropy_loss(y_test, y_hat_test)
     accuracy = np.mean(np.argmax(y_hat_test, axis=1) == np.argmax(y_test, axis=1))
 
     print(f'Test Loss: {test_loss}')
     print(f'Test Accuracy: {accuracy}')
 
-    return w1, b1, w2, b2
+    return w1, b1, w2, b2, w3, b3
+
     
 
 # train the network!!
-w1, b1, w2, b2 = train(x_train, y_train_one_hot, x_test, y_test_one_hot, w1, b1, w2, b2)
+w1, b1, w2, b2, w3, b3 = train(x_train, y_train_one_hot, x_test, y_test_one_hot, w1, b1, w2, b2, w3, b3)
