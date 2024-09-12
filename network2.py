@@ -176,7 +176,7 @@ def backPropogation(x, y, a1, a2, y_hat, w1, b1, w2, b2, w3, b3, learning_rate=0
 5. Monitor training progress by evaluating the loss and accuracy.
 """
 
-def train(x_train, y_train, x_test, y_test, w1, b1, w2, b2, w3, b3, epochs=1000, learning_rate=0.1):
+def train(x_train, y_train, x_test, y_test, w1, b1, w2, b2, w3, b3, epochs=2000, learning_rate=0.1):
     for epoch in range(epochs):
         # Forward propagation
         a1, a2, y_hat = forward_propogation(x_train, w1, b1, w2, b2, w3, b3)

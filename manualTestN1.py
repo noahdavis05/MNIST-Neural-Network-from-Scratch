@@ -20,9 +20,10 @@ x_test_samples_normalized = x_test_samples_flattened / 255.0
 
 # Step 4: Display the images (Optional - just to see what we're testing)
 for i in range(num_samples):
+    plt.subplot(1, num_samples, i + 1)
     plt.imshow(x_test_samples[i], cmap='gray')
     plt.axis('off')
-    plt.savefig(f'./n1Results/image_{i}.png')  # Save each image as a PNG file
+plt.show()
 
 # Step 5: Use the neural network to predict on these samples
 def sigmoid(z):
