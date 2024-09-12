@@ -33,4 +33,17 @@ This project involves training neural networks from scratch (without libraries l
 ## How to Run
 
 1. Clone the repository:
+ ```bash
+    git clone https://github.com/noahdavis05/MNIST-Intro.git
+ ```
+2. Ensure you have numpy, pygame, scikit-image, matplotlib (only for manualTestN1.py)
+3. To train either of the models yourself.
+```
+python network1.py
+python network2.py
+```
+4. To use the visual drawing example.
+```
+python visualExample.py
+```
    
