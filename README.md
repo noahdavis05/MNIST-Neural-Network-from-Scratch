@@ -1,40 +1,36 @@
-# MNIST-Intro
+# MNIST Neural Network Project
 
-## How a Neural Network works
-A neural network is designed to mimic how the human brain processes information. It learns patterns from data by adjusting the connections (weights) between neurons (nodes) across different layers.
+This project involves training neural networks from scratch (without libraries like TensorFlow or PyTorch) on the MNIST dataset, which consists of handwritten digits. The neural networks are designed using Python and utilize basic building blocks such as forward propagation and loss functions. In this repository i have trained two neural networks with different architecture, and have written a program which demonstrates the second network in action.
 
-At a high level, a neural network has:
+## Network Implementations
 
-Input Layer: Receives the data.
-Hidden Layers: Process the data through weights, biases, and activation functions.
-Output Layer: Produces the final result (e.g., classifying a digit in MNIST).
-The goal of the network is to take input data, process it, and give a meaningful output, like classifying an image as a digit.
+### Network 1
+- **Structure**: 
+  - Input Layer: 784 neurons (28x28 image)
+  - Hidden Layer: 128 neurons
+  - Output Layer: 10 neurons (one for each digit 0-9)
+- **Training Rate**: 0.1
+- **Epochs**: 2000
+- **Accuracy**: 90.74%
 
-Detailed Breakdown:
-Input Layer:
+### Network 2
+- **Structure**:
+  - Input Layer: 784 neurons
+  - Hidden Layers: 128 neurons (first layer), 64 neurons (second layer)
+  - Output Layer: 10 neurons
+- **Training Rate**: 0.1
+- **Epochs**: 2000
+- **Accuracy**: 94.09%
 
-This is where you feed in your data. For MNIST, each image is 28x28 pixels, so the input layer will have 784 neurons (28*28 = 784), where each neuron corresponds to a pixel.
-Hidden Layers:
+## Files Included
 
-These layers perform most of the processing. Each neuron in a hidden layer is connected to all the neurons from the previous layer. The connections have weights which are adjusted during training.
-Hidden layers also have biases to adjust the output before it's passed to the next layer.
-An activation function (e.g., sigmoid, ReLU) is applied to introduce non-linearity, allowing the network to solve complex problems.
-Output Layer:
+- `network1.py`: Contains the code for Network 1 (1 hidden layer) and its training.
+- `network2.py`: Contains the code for Network 2 (2 hidden layers) and its training.
+- `manualTestN1.py`: A slightly messy script I used to see the images given to the network and displays the results the network comes up with in command line.
+- `visualExample.py`: A Pygame application where users can draw a number in a box. The drawn image is processed to be the correct format for the network and sent to the neural network to predict the digit. The prediction is then displayed to the user on the GUI along with the probability for each number.
+- `learnings.md`: A markdown file elaborating on what I have learnt from this project.
 
-This layer produces the final output. For MNIST, there are 10 output neurons, one for each digit (0-9).
-The output is typically a probability distribution showing the likelihood of each class (e.g., 85% chance it’s a 5).
-How it Learns:
-Forward Propagation:
+## How to Run
 
-Data flows through the network from input to output. At each layer, the inputs are multiplied by the weights, summed with the biases, and passed through the activation function.
-Loss Function:
-
-The network makes predictions, but initially, they will be incorrect. The loss function measures how far the predictions are from the actual values. For classification tasks like MNIST, cross-entropy is commonly used as the loss function.
-Backpropagation:
-
-This is where learning happens. The network calculates the gradient (derivative) of the loss with respect to each weight using backpropagation. These gradients tell the network how to adjust the weights to minimize the loss.
-Weight Update:
-
-The weights are adjusted using an optimizer (e.g., gradient descent) based on the calculated gradients. Over many iterations, the network learns to minimize the loss, improving its predictions.
-Goal:
-The goal is to train the network to adjust its weights and biases so that it can make accurate predictions when given new input data.
+1. Clone the repository:
+   
