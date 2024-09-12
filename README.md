@@ -30,6 +30,9 @@ This project involves training neural networks from scratch (without libraries l
 - `visualExample.py`: A Pygame application where users can draw a number in a box. The drawn image is processed to be the correct format for the network and sent to the neural network to predict the digit. The prediction is then displayed to the user on the GUI along with the probability for each number.
 - `learnings.md`: A markdown file elaborating on what I have learnt from this project.
 
+## visualExample.py demo
+![A clip showing visualExample.py in action](choice.gif)
+
 ## How to Run
 
 1. Clone the repository:
