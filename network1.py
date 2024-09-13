@@ -18,7 +18,6 @@ x_test = x_test.reshape(-1, 28*28)
 x_train = x_train / 255.0
 x_test = x_test / 255.0
 
-# temp fix
 # One-hot encode labels
 def one_hot_encode(y, num_classes):
     return np.eye(num_classes)[y]

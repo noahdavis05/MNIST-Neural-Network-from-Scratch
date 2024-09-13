@@ -1,3 +1,4 @@
+# File used to import the data to train the network.
 import tensorflow as tf
 import os
 

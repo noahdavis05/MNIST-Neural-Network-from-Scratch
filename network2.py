@@ -18,7 +18,6 @@ x_test = x_test.reshape(-1, 28*28)
 x_train = x_train / 255.0
 x_test = x_test / 255.0
 
-# temp fix
 # One-hot encode labels
 def one_hot_encode(y, num_classes):
     return np.eye(num_classes)[y]
@@ -213,11 +212,11 @@ if save == 'y':
     folder_path = './n2Results'
     if not os.path.exists(folder_path):
       os.makedirs(folder_path)
-    np.save('./n1Results/w1.npy', w1)
-    np.save('./n1Results/b1.npy', b1)
-    np.save('./n1Results/w2.npy', w2)
-    np.save('./n1Results/b2.npy', b2)
-    np.save('./n1Results/w3.npy', w3)
-    np.save('./n1Results/b3.npy', b3)
+    np.save('./n2Results/w1.npy', w1)
+    np.save('./n2Results/b1.npy', b1)
+    np.save('./n2Results/w2.npy', w2)
+    np.save('./n2Results/b2.npy', b2)
+    np.save('./n2Results/w3.npy', w3)
+    np.save('./n2Results/b3.npy', b3)
     
 
