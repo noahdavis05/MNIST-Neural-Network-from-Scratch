@@ -31,7 +31,7 @@ This project involves training neural networks from scratch (without libraries l
 - `learnings.md`: A markdown file elaborating on what I have learnt from this project.
 
 ## visualExample.py demo
-![A clip showing visualExample.py in action](choice.gif)
+![A clip showing visualExample.py in action](extra/choice.gif)
 
 ## How to Run
 
