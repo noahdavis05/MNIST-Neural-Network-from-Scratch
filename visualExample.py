@@ -104,27 +104,27 @@ def render_text(text, color, font, size):
 def add_pixels(drawn_image, circle_radius, rect_x, rect_width, rect_y, rect_height):
     mouse_pos = pygame.mouse.get_pos()
         
-        # Get the coordinates of the circle's bounding box
-        for i in range(-circle_radius, circle_radius + 1):
-            for j in range(-circle_radius, circle_radius + 1):
-                x = mouse_pos[0] + i
-                y = mouse_pos[1] + j
-                
-                # Calculate distance from the center (mouse_pos) to (x, y)
-                distance = math.sqrt(i**2 + j**2)
-                
-                # If the distance is less than or equal to the radius, draw the pixel
-                if distance <= circle_radius:
-                    if x >= rect_x and x <= rect_x + rect_width and y >= rect_y and y <= rect_y + rect_height:
-                        temp_coord = (x, y)
-                        if temp_coord not in drawn_image:
-                            drawn_image.append(temp_coord)
+    # Get the coordinates of the circle's bounding box
+    for i in range(-circle_radius, circle_radius + 1):
+        for j in range(-circle_radius, circle_radius + 1):
+            x = mouse_pos[0] + i
+            y = mouse_pos[1] + j
+            
+            # Calculate distance from the center (mouse_pos) to (x, y)
+            distance = math.sqrt(i**2 + j**2)
+            
+            # If the distance is less than or equal to the radius, draw the pixel
+            if distance <= circle_radius:
+                if x >= rect_x and x <= rect_x + rect_width and y >= rect_y and y <= rect_y + rect_height:
+                    temp_coord = (x, y)
+                    if temp_coord not in drawn_image:
+                        drawn_image.append(temp_coord)
 
     return temp_coord
 
 # Function to draw everything on screen including, buttons, text, and the hand drawn shapes
 def blit_on_screen(screen, drawn_image, text_list, predicted, drawing_rect, clear_button, predict_button):
-        screen.fill(WHITE)
+    screen.fill(WHITE)
 
     # iterate through drawn image and draw the pixels
     for coord in drawn_image:
@@ -156,6 +156,7 @@ def blit_on_screen(screen, drawn_image, text_list, predicted, drawing_rect, clea
 
 # setup the ai predictions
 # Load the weights and biases
+
 w1 = np.load(r'C:\Users\noah\OneDrive\Documents\Python\MNISTnetwork\Clone\MNIST-Intro\n1Results\w1.npy')
 b1 = np.load(r'C:\Users\noah\OneDrive\Documents\Python\MNISTnetwork\Clone\MNIST-Intro\n1Results\b1.npy')
 w2 = np.load(r'C:\Users\noah\OneDrive\Documents\Python\MNISTnetwork\Clone\MNIST-Intro\n1Results\w2.npy')
