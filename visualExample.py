@@ -120,7 +120,7 @@ def add_pixels(drawn_image, circle_radius, rect_x, rect_width, rect_y, rect_heig
                     if temp_coord not in drawn_image:
                         drawn_image.append(temp_coord)
 
-    return temp_coord
+    return drawn_image
 
 # Function to draw everything on screen including, buttons, text, and the hand drawn shapes
 def blit_on_screen(screen, drawn_image, text_list, predicted, drawing_rect, clear_button, predict_button):
