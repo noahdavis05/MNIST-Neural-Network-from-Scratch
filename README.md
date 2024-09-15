@@ -28,6 +28,7 @@ This project involves training neural networks from scratch (without libraries l
 - `network2.py`: Contains the code for Network 2 (2 hidden layers) and its training.
 - `manualTestN1.py`: A slightly messy script I used to see the images given to the network and displays the results the network comes up with in command line.
 - `visualExample.py`: A Pygame application where users can draw a number in a box. The drawn image is processed to be the correct format for the network and sent to the neural network to predict the digit. The prediction is then displayed to the user on the GUI along with the probability for each number.
+- `getData.py`: A simple python script to download the MNIST dataset and save the files into a specified folder.
 - `learnings.md`: A markdown file elaborating on what I have learnt from this project.
 
 ## visualExample.py demo
