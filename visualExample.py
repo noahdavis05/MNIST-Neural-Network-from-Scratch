@@ -221,7 +221,7 @@ mouse_down = False
 predicted = False
 
 # Define the radius of the circle
-circle_radius = 6  # You can adjust this value
+circle_radius = 5  # You can adjust this value
 
 while running:
     for event in pygame.event.get():
