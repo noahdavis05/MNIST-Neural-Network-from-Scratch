@@ -50,4 +50,7 @@ python network2.py
 ```
 python visualExample.py
 ```
+
+## Bonus
+I also added network3.py, this was a neural network also for the MNIST dataset, however, I used tensorflow this time to implement this so I could learn the basics. This was very efficient and trained a 98% accuracy in 5 epochs. This method was much more efficient as tensorflow is very optimised with backpropigation techniques which converge much faster than my code.
    
